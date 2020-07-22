@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="PhoneBookTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-07-22T23:27:29" hostname="DESKTOP-V5L7Q4Q" time="134.64">
+  <properties/>
+  <testcase name="start" classname="PhoneBookTest" time="134.64"/>
+  <system-out><![CDATA[?[1;31m
+Start test 1?[0m
+Start searching...
+Found 500 / 500 entries. Time taken: 0 min. 11 sec. 66 ms.
+
+Start searching (bubble sort + jump search)...
+Found 500 / 500 entries. Time taken: 2 min. 1 sec. 690 ms.
+Sorting time: 1 min. 50 sec. 676 ms. - STOPPED, moved to linear search
+Searching time: 0 min. 11 sec. 14 ms.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

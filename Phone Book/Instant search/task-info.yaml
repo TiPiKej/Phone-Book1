@@ -1,0 +1,366 @@
+type: edu
+custom_name: stage4
+files:
+- name: src/phonebook/Time.java
+  visible: true
+  text: |
+    package phonebook;
+
+    public class Time {
+        private long wholeTime;
+        private long ms;
+        private long sec;
+        private long min;
+
+        public Time(long duration) {
+            this.wholeTime = duration;
+            setDetails();
+        }
+
+        private void setDetails() {
+            this.ms = this.wholeTime % 1000;
+            this.sec = ((this.wholeTime - ms) / 1000) % 60;
+            this.min = (((this.wholeTime - ms) / 1000) - sec) / 60;
+        }
+
+        public void setTime(long duration) {
+            this.wholeTime = duration - this.wholeTime;
+            setDetails();
+        }
+
+        public long checkDuration(long duration) {
+            return duration - this.wholeTime;
+        }
+
+        public long getWholeTime() {
+            return wholeTime;
+        }
+
+        public long getMin() {
+            return min;
+        }
+
+        public long getSec() {
+            return sec;
+        }
+
+        public long getMs() {
+            return ms;
+        }
+
+        public static long current() {
+            return System.currentTimeMillis();
+        }
+
+        public static Time totalTime(Time t1, Time t2) {
+            return new Time(t1.getWholeTime() + t2.getWholeTime());
+        }
+    }
+  learner_created: false
+- name: src/phonebook/SearchAlgorithms.java
+  visible: true
+  text: |-
+    package phonebook;
+
+    import java.util.Arrays;
+
+    class SearchAlgorithms {
+        private String[][] arr;
+
+        public SearchAlgorithms () {
+            this.arr = new String[0][0];
+        }
+
+        public SearchAlgorithms (String[][] arr) {
+            this.arr = arr;
+        }
+
+        public int linearSearch(String[] value) {
+            for (String[] line : this.arr) {
+                int number = -1;
+                String name = null;
+                String surname = null;
+
+                switch (line.length) {
+                    case 3:
+                        surname = line[2];
+                    case 2:
+                        name = line[1];
+                    case 1:
+                        number = Integer.parseInt(line[0]);
+                }
+
+                if (name.equals(value[0]) && surname == null && value[1] == null) {
+                    return number;
+                }
+
+                if (surname == null || value[1] == null) {
+                    continue;
+                }
+
+                if (name.equals(value[0]) && surname.equals(value[1])) {
+                    return number;
+                }
+            }
+
+            return -1;
+        }
+
+        public boolean bubbleSort(Time time, Time notBiggerTenTimes) {
+            String[] temp;
+            for (int curLength = arr.length; curLength > 0; curLength--) {
+                if (time.checkDuration(Time.current()) > notBiggerTenTimes.getWholeTime() * 10) {
+                    return false;
+                }
+
+                for (int i = 1; i < curLength; i++) {
+                    if (
+                            (
+                                    arr[i - 1].length == 2 && arr[i].length == 2 &&
+                                    arr[i - 1][1].compareTo(arr[i][1]) > 0
+                            ) || (
+                                    arr[i - 1].length == 3 && arr[i].length == 3 &&
+                                    arr[i - 1][1].compareTo(arr[i][1]) == 0 &&
+                                    arr[i - 1][2].compareTo(arr[i][2]) > 0
+                            )
+                    ) {
+                        temp = arr[i];
+                        arr[i] = arr[i - 1];
+                        arr[i - 1] = temp;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public int jumpSearch(String[] value) {
+            int jump = (int) Math.sqrt(arr.length);
+
+            int i = 0;
+            while (
+                    (
+                            arr[i].length == 2 && value.length == 1 &&
+                            arr[i][1].compareTo(value[0]) <= 0
+                    ) || (
+                            arr[i].length == 3 && value.length == 2 &&
+                            arr[i][1].compareTo(value[0]) <= 0 &&
+                            arr[i][2].compareTo(value[1]) <= 0
+                    )
+            ) {
+                i = Math.min(jump + i, arr.length - 1);
+            }
+
+            for (int j = i; j > i - jump; j--) {
+                if (arr[i].length == 2 && value.length == 1) {
+                    if (arr[i][1].equals(value[0])) return Integer.parseInt(arr[i][0]);
+                }
+
+                if (arr[i].length == 3 && value.length == 2) {
+                    if (arr[i][1].equals(value[0]) && arr[i][2].equals(value[1]))
+                        return Integer.parseInt(arr[i][0]);
+                }
+
+                if (
+                        (
+                                arr[i].length == 2 && value.length == 1 &&
+                                        arr[i][1].compareTo(value[0]) < 0
+                        ) || (
+                                arr[i].length == 3 && value.length == 2 &&
+                                        arr[i][1].compareTo(value[0]) < 0 &&
+                                        arr[i][2].compareTo(value[1]) < 0
+                        )
+                ) {
+                    return -1;
+                }
+            }
+
+            return -1;
+        }
+    }
+  learner_created: false
+- name: src/phonebook/Main.java
+  visible: true
+  text: |-
+    package phonebook;
+
+    import java.io.File;
+    import java.io.IOException;
+    import java.util.Arrays;
+    import java.util.Scanner;
+
+    public class Main {
+        public static void main(String[] args) {
+            String folderLocation = "C:\\Users\\Tomek\\Downloads\\";
+
+            File findFile = new File(folderLocation + "find.txt");
+            File directoryFile = new File(folderLocation + "directory.txt");
+
+            try {
+    //            getting scanner to move on files
+                final Scanner scannerFind = new Scanner(findFile);
+                final Scanner scannerDirectory = new Scanner(directoryFile);
+
+    //            System.out.println("W złej kolejności: Nowak, Antek: " + "Nowak".compareTo("Antek"));
+    //            System.out.println("W dobrej kolejności: Antek, Nowak: " + "Antek".compareTo("Nowak"));
+
+    //            creating array with size of directory file and also find file
+                String[][] directory = new String[getFileLength(directoryFile)][3];
+                String[][] find = new String[getFileLength(findFile)][2];
+
+    //            insert directory and file file into arrays
+                String[] tempLine;
+    //            directory
+                for (int i = 0; scannerDirectory.hasNextLine(); i++) {
+                    tempLine = scannerDirectory.nextLine().split(" ");
+                    if (tempLine.length >= 1) directory[i][0] = tempLine[0];
+                    if (tempLine.length >= 2) directory[i][1] = tempLine[1];
+                    if (tempLine.length >= 3) directory[i][2] = tempLine[2];
+                }
+    //            find
+                for (int i = 0; scannerFind.hasNextLine(); i++) {
+                    tempLine = scannerFind.nextLine().split("\\s");
+                    if (tempLine.length >= 1) find[i][0] = tempLine[0];
+                    if (tempLine.length >= 2) find[i][1] = tempLine[1];
+                }
+
+    //            set new object containing directory file as array
+                SearchAlgorithms algorithms = new SearchAlgorithms(directory);
+
+    //            searching by linear search
+                System.out.println("Start searching...");
+
+                int count = 0;
+                final Time timeLinearSearching = new Time(Time.current());
+                for (String[] user : find) {
+                    if (algorithms.linearSearch(user) != -1) {
+                        count++;
+                    } else {
+                        System.out.println(user[0] + " " + user[1]);
+                    }
+                }
+                timeLinearSearching.setTime(Time.current());
+
+                System.out.printf("Found %d / 500 entries. Time taken: %d min. %d sec. %d ms.\n\n", count, timeLinearSearching.getMin(), timeLinearSearching.getSec(), timeLinearSearching.getMs());
+
+    //            bubble sorting
+                System.out.println("Start searching (bubble sort + jump search)...");
+                final Time timeBubbleSort = new Time(Time.current());
+                final boolean isCompletedSorted = algorithms.bubbleSort(timeBubbleSort, timeLinearSearching);
+                timeBubbleSort.setTime(Time.current());
+    //            searching by jump search or linearSearch
+                Time timeJumpSearching = new Time(Time.current());
+                count = 0;
+                for (String[] user : find) {
+                    if (isCompletedSorted) { // jump search
+                        if (algorithms.jumpSearch(user) != -1) {
+                            count++;
+                        }
+                    } else { // linear sorting
+                        if (algorithms.linearSearch(user) != -1) {
+                            count++;
+                        }
+                    }
+                }
+                timeJumpSearching.setTime(Time.current());
+
+    //            get total time of both operations (sorting and searching)
+                Time totalTime = new Time(timeBubbleSort.getWholeTime() + timeJumpSearching.getWholeTime());
+
+                System.out.printf("Found %d / 500 entries. Time taken: %d min. %d sec. %d ms.\n", count, totalTime.getMin(), totalTime.getSec(), totalTime.getMs());
+                System.out.printf("Sorting time: %d min. %d sec. %d ms.", timeBubbleSort.getMin(), timeBubbleSort.getSec(), timeBubbleSort.getMs());
+                if (!isCompletedSorted) System.out.print(" - STOPPED, moved to linear search");
+                System.out.printf("\nSearching time: %d min. %d sec. %d ms.\n", timeJumpSearching.getMin(), timeLinearSearching.getSec(), timeLinearSearching.getMs());
+
+            } catch (IOException e) {
+                System.out.println("Cannot load files!");
+            }
+        }
+
+        private static int getFileLength(File file) {
+            int directoryLength = 0;
+
+            try (Scanner scanner = new Scanner(file)) {
+                while (scanner.hasNextLine()) {
+                    directoryLength++;
+                    scanner.nextLine();
+                }
+            } catch (IOException e) {
+                System.out.println("Cannot load files!");
+            }
+
+            return directoryLength;
+        }
+    }
+  learner_created: false
+- name: test/PhoneBookTest.java
+  visible: false
+  text: "import org.hyperskill.hstest.stage.StageTest;\nimport org.hyperskill.hstest.testcase.CheckResult;\n\
+    import org.hyperskill.hstest.testcase.TestCase;\nimport phonebook.Main;\n\nimport\
+    \ java.util.ArrayList;\nimport java.util.Arrays;\nimport java.util.List;\nimport\
+    \ java.util.regex.Matcher;\nimport java.util.regex.Pattern;\n\npublic class PhoneBookTest\
+    \ extends StageTest {\n    public PhoneBookTest() {\n        super(Main.class);\n\
+    \    }\n    \n    private long timeOnTestStart;\n    \n    @Override\n    public\
+    \ List<TestCase> generate() {\n        timeOnTestStart = System.currentTimeMillis();\n\
+    \        return Arrays.asList(\n            new TestCase().setTimeLimit(30 * 60\
+    \ * 1000)\n        );\n    }\n    \n    \n    private CheckResult checkPhrases(String\
+    \ reply, String... phrases) {\n        reply = reply.toLowerCase();\n        for\
+    \ (String phrase : phrases) {\n            if (!reply.contains(phrase.toLowerCase()))\
+    \ {\n                return CheckResult.wrong(\"Not found the part `\" + phrase\
+    \ + \"` in your output.\");\n            }\n        }\n        return CheckResult.correct();\n\
+    \    }\n    \n    private List<String> findAll(String reply, String regex) {\n\
+    \        Matcher matcher = Pattern.compile(regex).matcher(reply);\n        List<String>\
+    \ groups = new ArrayList<>();\n        while (matcher.find()) {\n            groups.add(matcher.group());\n\
+    \        }\n        return groups;\n    }\n    \n    private String timeRegex\
+    \ = \"(\\\\d+)\\\\s*min.*?(\\\\d+)\\\\s*sec.*?(\\\\d+)\\\\s*ms\";\n    private\
+    \ Pattern timeRegexPattern = Pattern.compile(timeRegex);\n    \n    private long\
+    \ parseTimestamp(String timestamp) {\n        Matcher matcher = timeRegexPattern.matcher(timestamp);\n\
+    \        if (!matcher.matches() || matcher.groupCount() < 3) {\n            throw\
+    \ new IllegalStateException(\"???Not matches the line \" + timestamp);\n     \
+    \   }\n        int min = Integer.parseInt(matcher.group(1));\n        int sec\
+    \ = Integer.parseInt(matcher.group(2));\n        int ms = Integer.parseInt(matcher.group(3));\n\
+    \        return ms + sec * 1000 + min * 1000 * 60;\n    }\n    \n    \n    \n\
+    \    @Override\n    public CheckResult check(String reply, Object clue) {\n  \
+    \      long realTime = System.currentTimeMillis() - timeOnTestStart;\n       \
+    \ reply = reply.toLowerCase();\n        CheckResult res = checkPhrases(reply,\n\
+    \                \"found\",\n                \"min.\",\n                \"sec.\"\
+    ,\n                \"ms.\",\n                \"sorting time\",\n             \
+    \   \"searching time\",\n                \"linear search\",\n                \"\
+    bubble sort\",\n                \"jump search\",\n                \"quick sort\"\
+    ,\n                \"binary search\",\n                \"hash table\",\n     \
+    \           \"creating time\"\n        );\n        if (!res.isCorrect()) {\n \
+    \           return res;\n        }\n    \n        List<String> stat1 = findAll(reply,\
+    \ \"500 / 500\");\n        List<String> stat2 = findAll(reply, \"500/500\");\n\
+    \    \n        if (stat1.size() + stat2.size() < 4) {\n            return CheckResult.wrong(\"\
+    Your output should contain 4 times the phrase `500 / 500`\");\n        }\n   \
+    \ \n        List<String> timestamps = findAll(reply, timeRegex);\n        if (timestamps.size()\
+    \ != 10) {\n            return CheckResult.wrong(\"Your output should contain\
+    \ 10 timer outputs, but found \"\n                    + timestamps.size());\n\
+    \        }\n        // should not fail..\n        long t1 = parseTimestamp(timestamps.get(0));\n\
+    \        long t2 = parseTimestamp(timestamps.get(1));\n        long t3 = parseTimestamp(timestamps.get(2));\n\
+    \        long t4 = parseTimestamp(timestamps.get(3));\n        // qsort\n    \
+    \    long t5 = parseTimestamp(timestamps.get(4));\n        long t6 = parseTimestamp(timestamps.get(5));\n\
+    \        long t7 = parseTimestamp(timestamps.get(6));\n        // hash table\n\
+    \        long t8 = parseTimestamp(timestamps.get(7));\n        long t9 = parseTimestamp(timestamps.get(8));\n\
+    \        long t10 = parseTimestamp(timestamps.get(9));\n    \n        if (Math.abs(t3\
+    \ + t4 - t2) > 100) {\n            return CheckResult.wrong(\"Your third and fourth\
+    \ timer outputs in total (bubble sorting and searching) \" +\n               \
+    \     \"should be equal to the second (total search time).\");\n        }\n  \
+    \      if (Math.abs(t6 + t7 - t5) > 100) {\n            return CheckResult.wrong(\"\
+    Your 6-th and 7-th timer outputs in total (qsort and searching) \" +\n       \
+    \             \"should be equal to the 5-th (total search time).\");\n       \
+    \ }\n        if (Math.abs(t9 + t10 - t8) > 100) {\n            return CheckResult.wrong(\"\
+    Your 9-th and 10-th timer outputs in total (creating hashtable and searching)\
+    \ \" +\n                    \"should be equal to the 8-th (total search time).\"\
+    );\n        }\n    \n        long estimatedTime = t1 + t2 + t5 + t8;\n       \
+    \ if (realTime < 1000) {\n            return CheckResult.wrong(\"Your program\
+    \ completes too fast. Faster than a second!\");\n        }\n\n        if (Math.abs(estimatedTime\
+    \ - realTime) > estimatedTime * 0.3) {\n            return CheckResult.wrong(\"\
+    Your estimated time is not similar to real time the program works. \" +\n    \
+    \                \"Real time: \" + realTime + \"ms, estimated time: \" + estimatedTime\
+    \ + \"ms\");\n        }\n        \n        if (t8 >= t5) {\n            return\
+    \ CheckResult.wrong(\"Your hashtable works slower, than quick sort + binary search.\"\
+    );\n        }\n        return CheckResult.correct();\n    }\n}\n"
+  learner_created: false
+feedback_link: https://hyperskill.org/projects/63/stages/475/implement
+status: Unchecked
+record: -1
