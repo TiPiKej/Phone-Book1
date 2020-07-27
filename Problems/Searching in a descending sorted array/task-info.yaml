@@ -45,20 +45,9 @@ files:
     }
   learner_created: false
 feedback_link: https://hyperskill.org/learn/step/3132
-status: Failed
+status: Solved
 feedback:
-  message: |+
-    Failed test #2 of 13. Time limit exceeded
-
-    This is a sample test from the problem statement!
-
-    Test input:
-    2
-    3 3 3 3 3 1 1 1 0
-    Correct output:
-    -1
-
-    Your code output:
-
-  time: Mon, 27 Jul 2020 21:44:05 UTC
+  message: <html>Correct solution<br/><br/>Continue on <a href="https://hyperskill.org/learn/step/3132">JetBrains
+    Academy</a></html>
+  time: Mon, 27 Jul 2020 21:52:26 UTC
 record: -1
