@@ -23,9 +23,9 @@ files:
     }
   learner_created: false
 feedback_link: https://hyperskill.org/learn/step/3827
-status: Failed
+status: Solved
 feedback:
-  message: |
-    Failed test #1 of 7. The pivot is placed on the wrong location!
-  time: Mon, 27 Jul 2020 22:11:01 UTC
+  message: <html>Correct solution<br/><br/>Continue on <a href="https://hyperskill.org/learn/step/3827">JetBrains
+    Academy</a></html>
+  time: Mon, 27 Jul 2020 22:27:02 UTC
 record: -1
