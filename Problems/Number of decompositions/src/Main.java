@@ -10,27 +10,37 @@ class Main {
         int[] arr = new int[N];
         Arrays.fill(arr, 1);
 
-        decomposition(arr, N);
+        decomposition(arr, N, 0, N - 1);
     }
 
-    public static void decomposition(int[] arr, int N) {
-        printArr(arr);
-        int[] newArr = new int[N - 1];
+    public static void decomposition(int[] arr, int N, int start, int end) {
+//        if (start == 0) {
+            printArr(arr);
+            System.out.println();
+//        }
 
-        int i = N;
-        boolean swapped = false;
-        while (i > 0) {
-            if (arr[i] == arr[i - 1] && !swapped) {
-                newArr[i - 1] = arr[i] + arr[i - 1];
+        for (int i = 2; i <= N; i++) {
+            int sum = 0;
+            int[] newArr = new int[N - 1];
 
-                swapped = true;
-                i--;
+            for (int j = 0; j < start; j++) {
+                newArr[j] = arr[j];
+//                sum += arr[j];
             }
-            i--;
-        }
 
-        System.out.println();
-        printArr(newArr);
+            newArr[start] = i;
+            sum += i;
+
+            for (int j = start + 1; sum < N; j++) {
+                newArr[j] = arr[j + 1];
+                sum += arr[j + 1];
+            }
+
+            if (start + 1 < end) decomposition(newArr, N - i, start + 1, end);
+
+//            System.out.println();
+//            printArr(newArr);
+        }
     }
 
     public static void printArr(int[] arr) {
