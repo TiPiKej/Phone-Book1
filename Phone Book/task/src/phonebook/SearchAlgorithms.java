@@ -3,48 +3,30 @@ package phonebook;
 import java.util.Arrays;
 
 class SearchAlgorithms {
-    private String[][] arr;
-
-    public SearchAlgorithms () {
-        this.arr = new String[0][0];
-    }
-
-    public SearchAlgorithms (String[][] arr) {
-        this.arr = arr;
-    }
-
-    public int linearSearch(String[] value) {
-        for (String[] line : this.arr) {
+    public int linearSearch(String findingName, String[][] findingArr) {
+        int i = 0;
+        for (String[] line : findingArr) {
             int number = -1;
             String name = null;
-            String surname = null;
 
             switch (line.length) {
-                case 3:
-                    surname = line[2];
                 case 2:
                     name = line[1];
                 case 1:
                     number = Integer.parseInt(line[0]);
             }
 
-            if (name.equals(value[0]) && surname == null && value[1] == null) {
-                return number;
+            if (name.equals(findingName)) {
+//                return number;
+                return i;
             }
-
-            if (surname == null || value[1] == null) {
-                continue;
-            }
-
-            if (name.equals(value[0]) && surname.equals(value[1])) {
-                return number;
-            }
+            i++;
         }
 
         return -1;
     }
 
-    public boolean bubbleSort(long time, long notBiggerTenTimes) {
+    public boolean bubbleSort(String[][] arr, long time, long notBiggerTenTimes) {
         String[] temp;
         for (int curLength = arr.length; curLength > 0; curLength--) {
             if ((System.currentTimeMillis() - time) > (notBiggerTenTimes * 10)) {
@@ -52,16 +34,7 @@ class SearchAlgorithms {
             }
 
             for (int i = 1; i < curLength; i++) {
-                if (
-                        (
-                                arr[i - 1].length == 2 && arr[i].length == 2 &&
-                                arr[i - 1][1].compareTo(arr[i][1]) > 0
-                        ) || (
-                                arr[i - 1].length == 3 && arr[i].length == 3 &&
-                                arr[i - 1][1].compareTo(arr[i][1]) == 0 &&
-                                arr[i - 1][2].compareTo(arr[i][2]) > 0
-                        )
-                ) {
+                if (arr[i - 1][1].compareTo(arr[i][1]) > 0) {
                     temp = arr[i];
                     arr[i] = arr[i - 1];
                     arr[i - 1] = temp;
@@ -71,47 +44,82 @@ class SearchAlgorithms {
         return true;
     }
 
-    public int jumpSearch(String[] value) {
-        int jump = (int) Math.sqrt(arr.length);
+    public int jumpSearch(String findingName, String[][] findingArr) {
+        int jump = (int) Math.sqrt(findingArr.length);
 
         int i = 0;
-        while (
-                (
-                        arr[i].length == 2 && value.length == 1 &&
-                        arr[i][1].compareTo(value[0]) <= 0
-                ) || (
-                        arr[i].length == 3 && value.length == 2 &&
-                        arr[i][1].compareTo(value[0]) <= 0 &&
-                        arr[i][2].compareTo(value[1]) <= 0
-                )
-        ) {
-            i = Math.min(jump + i, arr.length - 1);
+        while (findingArr[i][1].compareTo(findingName) < 0) {
+            i = Math.min(jump + i, findingArr.length - 1);
         }
 
         for (int j = i; j > i - jump; j--) {
-            if (arr[i].length == 2 && value.length == 1) {
-                if (arr[i][1].equals(value[0])) return Integer.parseInt(arr[i][0]);
-            }
+            if (findingArr[i][1].equals(findingName)) return Integer.parseInt(findingArr[i][0]);
 
-            if (arr[i].length == 3 && value.length == 2) {
-                if (arr[i][1].equals(value[0]) && arr[i][2].equals(value[1]))
-                    return Integer.parseInt(arr[i][0]);
-            }
-
-            if (
-                    (
-                            arr[i].length == 2 && value.length == 1 &&
-                                    arr[i][1].compareTo(value[0]) < 0
-                    ) || (
-                            arr[i].length == 3 && value.length == 2 &&
-                                    arr[i][1].compareTo(value[0]) < 0 &&
-                                    arr[i][2].compareTo(value[1]) < 0
-                    )
-            ) {
+            if (findingArr[i][1].compareTo(findingName) < 0) {
                 return -1;
             }
         }
 
         return -1;
+    }
+
+    public void quickSort(String[][] arr) {
+        this.quickSort(arr, 0, arr.length - 1);
+    }
+
+    public void quickSort(String[][] arr, int startIndex, int endIndex) {
+        if (startIndex < endIndex) {
+        /* pi is partitioning index, arr[pi] is now
+           at right place */
+            int pivot = this.partition(arr, startIndex, endIndex);
+
+            quickSort(arr, startIndex, pivot - 1);  // Before pi
+            quickSort(arr, pivot + 1, endIndex); // After pi
+        }
+    }
+
+    private int partition(String[][] arr, int startIndex, int endIndex) {
+        int pivotIndex = startIndex;
+        int i = (startIndex - 1);
+        String[] temp = new String[2];
+
+        for (int j = startIndex; j <= endIndex - 1; j++) {
+            if (arr[j][1].compareTo(arr[pivotIndex][1]) < 0) {
+                i++;
+                temp[0] = arr[i][0];
+                temp[1] = arr[i][1];
+                arr[i][0] = arr[j][0];
+                arr[i][1] = arr[j][1];
+                arr[j][0] = temp[0];
+                arr[j][1] = temp[1];
+            }
+        }
+        temp[0] = arr[i + 1][0];
+        temp[1] = arr[i + 1][1];
+        arr[i + 1][0] = arr[endIndex][0];
+        arr[i + 1][1] = arr[endIndex][1];
+        arr[endIndex][0] = temp[0];
+        arr[endIndex][1] = temp[1];
+        return (i + 1);
+    }
+
+    public int binarySearch(String findingName, String[][] findingArr) {
+        return this.binarySearch(findingName, findingArr, 0, findingArr.length - 1);
+    }
+
+    public int binarySearch(String findingName, String[][] findingArr, int left, int right) {
+        if (left > right) {
+            return -1;
+        }
+
+        int middle = left + (right - left) / 2;
+
+        if (findingName.equals(findingArr[middle][1])) {
+            return Integer.parseInt(findingArr[middle][0]);
+        } else if (findingName.compareTo(findingArr[middle][1]) < 1) {
+            return binarySearch(findingName, findingArr, left, middle - 1);
+        } else {
+            return binarySearch(findingName, findingArr, middle + 1, right);
+        }
     }
 }
