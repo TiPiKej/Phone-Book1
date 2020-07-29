@@ -14,32 +14,34 @@ class Main {
     }
 
     public static void decomposition(int[] arr, int N, int start, int end) {
-//        if (start == 0) {
-            printArr(arr);
-            System.out.println();
-//        }
+        printArr(arr);
+        System.out.println();
 
         for (int i = 2; i <= N; i++) {
             int sum = 0;
-            int[] newArr = new int[N - 1];
+            int[] newArr = new int[N];
 
+//            copying numbers behind actually added
             for (int j = 0; j < start; j++) {
                 newArr[j] = arr[j];
-//                sum += arr[j];
+                sum += arr[j];
             }
 
+////            adding numbers
             newArr[start] = i;
             sum += i;
 
-            for (int j = start + 1; sum < N; j++) {
-                newArr[j] = arr[j + 1];
-                sum += arr[j + 1];
+            for (int j = start + 1; j < N - 1; j++) {
+                if (sum + arr[j + 1] <= N) {
+                    newArr[j] = arr[j + 1];
+                    sum += arr[j + 1];
+                }
             }
 
-            if (start + 1 < end) decomposition(newArr, N - i, start + 1, end);
+            if (sum > N) return;
+            if (start > 0 && newArr[start] > newArr[start - 1]) return;
 
-//            System.out.println();
-//            printArr(newArr);
+            if (start < newArr.length) decomposition(newArr, N, start + 1, end);
         }
     }
 
