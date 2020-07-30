@@ -71,23 +71,26 @@ class SearchAlgorithms {
         if (startIndex < endIndex) {
             int pivot = this.partition(arr, startIndex, endIndex);
 
-//            quickSort(arr, startIndex, pivot - 1);
-//            quickSort(arr, pivot + 1, endIndex);
+            quickSort(arr, startIndex, pivot - 1);
+            quickSort(arr, pivot + 1, endIndex);
         }
     }
 
     private int partition(String[][] arr, int startIndex, int endIndex) {
-        int pivotIndex = startIndex;
-        int i = (startIndex - 1);
+        int pivot = endIndex;
+        int i = (startIndex-1);
 
-        for (int j = startIndex; j <= endIndex - 1; j++) {
-            if (arr[j][1].compareToIgnoreCase(arr[pivotIndex][1]) < 0) {
+        for (int j = startIndex; j < endIndex; j++) {
+            if (arr[j][1].compareToIgnoreCase(arr[pivot][1]) < 0) {
                 i++;
+
                 swap(arr, i, j);
             }
         }
+
         swap(arr, i + 1, endIndex);
-        return (i + 1);
+
+        return i+1;
     }
 
     private void swap(String[][] arr, int fIndex, int sIndex) {
