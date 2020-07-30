@@ -42,7 +42,7 @@ public class Main {
 
 //            set new object containing directory file as array
             SearchAlgorithms algorithms = new SearchAlgorithms();
-
+/*
 //            searching by linear search
             System.out.println("Start searching...");
 
@@ -94,11 +94,16 @@ public class Main {
             System.out.printf("Sorting time: %d min. %d sec. %d ms.", Time.msToMin(timeBubbleSort), Time.msToSec(timeBubbleSort), Time.msToMs(timeBubbleSort));
             if (!isCompletedSorted) System.out.print(" - STOPPED, moved to linear search");
             System.out.printf("\nSearching time: %d min. %d sec. %d ms.\n", Time.msToMin(timeJumpSearching), Time.msToSec(timeJumpSearching), Time.msToMs(timeJumpSearching));
-
-            String[][] copiedDirectory2 = new String[directory.length][2];
-            for (int i = 0; i < directory.length; i++) {
+            System.out.println();
+*/
+            String[][] copiedDirectory2 = new String[10/*directory.length*/][2];
+            for (int i = 0; i < 10/*directory.length*/; i++) {
                 copiedDirectory2[i][0] = directory[i][0];
                 copiedDirectory2[i][1] = directory[i][1];
+            }
+
+            for (String[] user : copiedDirectory2) {
+                System.out.printf("%s %s\n", user[0], user[1]);
             }
 
 //            quick sort
@@ -107,15 +112,23 @@ public class Main {
             algorithms.quickSort(copiedDirectory2);
             timeQuickSort = System.currentTimeMillis() - timeQuickSort;
 
+            System.out.println();
+            for (String[] user : copiedDirectory2) {
+                System.out.printf("%s %s\n", user[0], user[1]);
+            }
+
 //            searching by binary search
             long timeBinarySearching = System.currentTimeMillis();
-            count = 0;
+            int count = 0;
             for (String userName : find) {
                 if (algorithms.binarySearch(userName, copiedDirectory2) != -1) {
                     count++;
+                } else {
+//                    System.out.println(algorithms.binarySearch(userName, copiedDirectory2));
                 }
+
             }
-            timeJumpSearching = System.currentTimeMillis() - timeBinarySearching;
+            timeBinarySearching = System.currentTimeMillis() - timeBinarySearching;
 
 //            get total time of both operations (sorting and searching)
             long totalTime2 = timeQuickSort + timeBinarySearching;

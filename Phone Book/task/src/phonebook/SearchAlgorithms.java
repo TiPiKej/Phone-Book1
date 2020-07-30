@@ -67,40 +67,37 @@ class SearchAlgorithms {
         this.quickSort(arr, 0, arr.length - 1);
     }
 
-    public void quickSort(String[][] arr, int startIndex, int endIndex) {
+    private void quickSort(String[][] arr, int startIndex, int endIndex) {
         if (startIndex < endIndex) {
-        /* pi is partitioning index, arr[pi] is now
-           at right place */
             int pivot = this.partition(arr, startIndex, endIndex);
 
-            quickSort(arr, startIndex, pivot - 1);  // Before pi
-            quickSort(arr, pivot + 1, endIndex); // After pi
+//            quickSort(arr, startIndex, pivot - 1);
+//            quickSort(arr, pivot + 1, endIndex);
         }
     }
 
     private int partition(String[][] arr, int startIndex, int endIndex) {
         int pivotIndex = startIndex;
         int i = (startIndex - 1);
-        String[] temp = new String[2];
 
         for (int j = startIndex; j <= endIndex - 1; j++) {
-            if (arr[j][1].compareTo(arr[pivotIndex][1]) < 0) {
+            if (arr[j][1].compareToIgnoreCase(arr[pivotIndex][1]) < 0) {
                 i++;
-                temp[0] = arr[i][0];
-                temp[1] = arr[i][1];
-                arr[i][0] = arr[j][0];
-                arr[i][1] = arr[j][1];
-                arr[j][0] = temp[0];
-                arr[j][1] = temp[1];
+                swap(arr, i, j);
             }
         }
-        temp[0] = arr[i + 1][0];
-        temp[1] = arr[i + 1][1];
-        arr[i + 1][0] = arr[endIndex][0];
-        arr[i + 1][1] = arr[endIndex][1];
-        arr[endIndex][0] = temp[0];
-        arr[endIndex][1] = temp[1];
+        swap(arr, i + 1, endIndex);
         return (i + 1);
+    }
+
+    private void swap(String[][] arr, int fIndex, int sIndex) {
+        String[] temp = new String[2];
+        temp[0] = arr[fIndex][0];
+        temp[1] = arr[fIndex][1];
+        arr[fIndex][0] = arr[sIndex][0];
+        arr[fIndex][1] = arr[sIndex][1];
+        arr[sIndex][0] = temp[0];
+        arr[sIndex][1] = temp[1];
     }
 
     public int binarySearch(String findingName, String[][] findingArr) {

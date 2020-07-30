@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="PhoneBookTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2020-07-30T09:37:43" hostname="DESKTOP-V5L7Q4Q" time="1800.049">
+<testsuite name="PhoneBookTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2020-07-30T11:12:53" hostname="DESKTOP-V5L7Q4Q" time="137.357">
   <properties/>
-  <testcase name="start" classname="PhoneBookTest" time="1800.049">
-    <failure message="java.lang.AssertionError: Error in test #1&#10;&#10;In this test, the program is running for a long time, more than 1800 seconds. Most likely, the program has gone into an infinite loop." type="java.lang.AssertionError">java.lang.AssertionError: Error in test #1
+  <testcase name="start" classname="PhoneBookTest" time="137.357">
+    <failure message="java.lang.AssertionError: Wrong answer in test #1&#10;&#10;Your output should contain 3 times the phrase `500 / 500`&#10;&#10;Please find below the output of your program during this failed test.&#10;&#10;---&#10;&#10;Start searching...&#10;Found 500 / 500 entries. Time taken: 0 min. 11 sec. 49 ms.&#10;&#10;Start searching (bubble sort + jump search)...&#10;Found 500 / 500 entries. Time taken: 2 min. 2 sec. 824 ms.&#10;Sorting time: 1 min. 50 sec. 508 ms. - STOPPED, moved to linear search&#10;Searching time: 0 min. 12 sec. 316 ms.&#10;&#10;Start searching (quick sort + binary search)...&#10;Found 228 / 500 entries. Time taken: 0 min. 1 sec. 84 ms.&#10;Sorting time: 0 min. 1 sec. 82 ms.&#10;Searching time: 0 min. 0 sec. 2 ms." type="java.lang.AssertionError">java.lang.AssertionError: Wrong answer in test #1
 
-In this test, the program is running for a long time, more than 1800 seconds. Most likely, the program has gone into an infinite loop.
+Your output should contain 3 times the phrase `500 / 500`
+
+Please find below the output of your program during this failed test.
+
+---
+
+Start searching...
+Found 500 / 500 entries. Time taken: 0 min. 11 sec. 49 ms.
+
+Start searching (bubble sort + jump search)...
+Found 500 / 500 entries. Time taken: 2 min. 2 sec. 824 ms.
+Sorting time: 1 min. 50 sec. 508 ms. - STOPPED, moved to linear search
+Searching time: 0 min. 12 sec. 316 ms.
+
+Start searching (quick sort + binary search)...
+Found 228 / 500 entries. Time taken: 0 min. 1 sec. 84 ms.
+Sorting time: 0 min. 1 sec. 82 ms.
+Searching time: 0 min. 0 sec. 2 ms.
 	at org.junit.Assert.fail(Assert.java:88)
 	at org.hyperskill.hstest.stage.StageTest.start(StageTest.java:97)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -58,6 +75,18 @@ In this test, the program is running for a long time, more than 1800 seconds. Mo
   </testcase>
   <system-out><![CDATA[?[1;31m
 Start test 1?[0m
+Start searching...
+Found 500 / 500 entries. Time taken: 0 min. 11 sec. 49 ms.
+
+Start searching (bubble sort + jump search)...
+Found 500 / 500 entries. Time taken: 2 min. 2 sec. 824 ms.
+Sorting time: 1 min. 50 sec. 508 ms. - STOPPED, moved to linear search
+Searching time: 0 min. 12 sec. 316 ms.
+
+Start searching (quick sort + binary search)...
+Found 228 / 500 entries. Time taken: 0 min. 1 sec. 84 ms.
+Sorting time: 0 min. 1 sec. 82 ms.
+Searching time: 0 min. 0 sec. 2 ms.
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
