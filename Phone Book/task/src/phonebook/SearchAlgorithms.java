@@ -26,12 +26,12 @@ class SearchAlgorithms {
         return -1;
     }
 
-    public boolean bubbleSort(String[][] arr, long time, long notBiggerTenTimes) {
+    public boolean bubbleSort(String[][] arr, long time/*, long notBiggerTenTimes*/) {
         String[] temp;
         for (int curLength = arr.length; curLength > 0; curLength--) {
-            if ((System.currentTimeMillis() - time) > (notBiggerTenTimes * 10)) {
-                return false;
-            }
+//            if ((System.currentTimeMillis() - time) > (notBiggerTenTimes * 10)) {
+//                return false;
+//            }
 
             for (int i = 1; i < curLength; i++) {
                 if (arr[i - 1][1].compareTo(arr[i][1]) > 0) {
@@ -116,7 +116,7 @@ class SearchAlgorithms {
 
         if (findingName.equals(findingArr[middle][1])) {
             return Integer.parseInt(findingArr[middle][0]);
-        } else if (findingName.compareTo(findingArr[middle][1]) < 1) {
+        } else if (findingName.compareToIgnoreCase(findingArr[middle][1]) < 1) {
             return binarySearch(findingName, findingArr, left, middle - 1);
         } else {
             return binarySearch(findingName, findingArr, middle + 1, right);

@@ -42,22 +42,16 @@ public class Main {
 
 //            set new object containing directory file as array
             SearchAlgorithms algorithms = new SearchAlgorithms();
-/*
-//            searching by linear search
-            System.out.println("Start searching...");
 
-            int count = 0;
-            long timeLinearSearching = System.currentTimeMillis();
-            for (String userName : find) {
-                if (algorithms.linearSearch(userName, directory) != -1) {
-                    count++;
-                } else {
-                    System.out.println(userName);
-                }
-            }
-            timeLinearSearching = System.currentTimeMillis() - timeLinearSearching;
+            /* ******************************************************* */
+            /* ******************first stage************************** */
+            /* ******************************************************* */
 
-            System.out.printf("Found %d / 500 entries. Time taken: %d min. %d sec. %d ms.\n\n", count, Time.msToMin(timeLinearSearching), Time.msToSec(timeLinearSearching), Time.msToMs(timeLinearSearching));
+            firstStage(algorithms, find, directory);
+
+            /* ******************************************************* */
+            /* **********************second stage********************* */
+            /* ******************************************************* */
 
             String[][] copiedDirectory = new String[directory.length][2];
             for (int i = 0; i < directory.length; i++) {
@@ -65,78 +59,19 @@ public class Main {
                 copiedDirectory[i][1] = directory[i][1];
             }
 
-//            bubble sorting
-            System.out.println("Start searching (bubble sort + jump search)...");
-            long timeBubbleSort = System.currentTimeMillis();
-            final boolean isCompletedSorted = algorithms.bubbleSort(copiedDirectory, timeBubbleSort, timeLinearSearching);
-            timeBubbleSort = System.currentTimeMillis() - timeBubbleSort;
+            secondStage(algorithms, find, copiedDirectory);
 
-//            searching by jump search or linearSearch
-            long timeJumpSearching = System.currentTimeMillis();
-            count = 0;
-            for (String userName : find) {
-                if (isCompletedSorted) { // jump search
-                    if (algorithms.jumpSearch(userName, copiedDirectory) != -1) {
-                        count++;
-                    }
-                } else { // linear sorting
-                    if (algorithms.linearSearch(userName, copiedDirectory) != -1) {
-                        count++;
-                    }
-                }
-            }
-            timeJumpSearching = System.currentTimeMillis() - timeJumpSearching;
+            /* ******************************************************* */
+            /* ***********************third stage********************* */
+            /* ******************************************************* */
 
-//            get total time of both operations (sorting and searching)
-            long totalTime = timeBubbleSort + timeJumpSearching;
-
-            System.out.printf("Found %d / 500 entries. Time taken: %d min. %d sec. %d ms.\n", count, Time.msToMin(totalTime), Time.msToSec(totalTime), Time.msToMs(totalTime));
-            System.out.printf("Sorting time: %d min. %d sec. %d ms.", Time.msToMin(timeBubbleSort), Time.msToSec(timeBubbleSort), Time.msToMs(timeBubbleSort));
-            if (!isCompletedSorted) System.out.print(" - STOPPED, moved to linear search");
-            System.out.printf("\nSearching time: %d min. %d sec. %d ms.\n", Time.msToMin(timeJumpSearching), Time.msToSec(timeJumpSearching), Time.msToMs(timeJumpSearching));
-            System.out.println();
-*/
-            String[][] copiedDirectory2 = new String[10/*directory.length*/][2];
-            for (int i = 0; i < 10/*directory.length*/; i++) {
+            String[][] copiedDirectory2 = new String[directory.length][2];
+            for (int i = 0; i < directory.length; i++) {
                 copiedDirectory2[i][0] = directory[i][0];
                 copiedDirectory2[i][1] = directory[i][1];
             }
 
-            for (String[] user : copiedDirectory2) {
-                System.out.printf("%s %s\n", user[0], user[1]);
-            }
-
-//            quick sort
-            System.out.println("Start searching (quick sort + binary search)...");
-            long timeQuickSort = System.currentTimeMillis();
-            algorithms.quickSort(copiedDirectory2);
-            timeQuickSort = System.currentTimeMillis() - timeQuickSort;
-
-            System.out.println();
-            for (String[] user : copiedDirectory2) {
-                System.out.printf("%s %s\n", user[0], user[1]);
-            }
-
-//            searching by binary search
-            long timeBinarySearching = System.currentTimeMillis();
-            int count = 0;
-            for (String userName : find) {
-                if (algorithms.binarySearch(userName, copiedDirectory2) != -1) {
-                    count++;
-                } else {
-//                    System.out.println(algorithms.binarySearch(userName, copiedDirectory2));
-                }
-
-            }
-            timeBinarySearching = System.currentTimeMillis() - timeBinarySearching;
-
-//            get total time of both operations (sorting and searching)
-            long totalTime2 = timeQuickSort + timeBinarySearching;
-
-            System.out.printf("Found %d / 500 entries. Time taken: %d min. %d sec. %d ms.\n", count, Time.msToMin(totalTime2), Time.msToSec(totalTime2), Time.msToMs(totalTime2));
-            System.out.printf("Sorting time: %d min. %d sec. %d ms.", Time.msToMin(timeQuickSort), Time.msToSec(timeQuickSort), Time.msToMs(timeQuickSort));
-//            if (!isCompletedSorted) System.out.print(" - STOPPED, moved to linear search");
-            System.out.printf("\nSearching time: %d min. %d sec. %d ms.\n", Time.msToMin(timeBinarySearching), Time.msToSec(timeBinarySearching), Time.msToMs(timeBinarySearching));
+            thirdStage(algorithms, find, copiedDirectory2);
 
         } catch (IOException e) {
             System.out.println("Cannot load files!");
@@ -156,5 +91,85 @@ public class Main {
         }
 
         return directoryLength;
+    }
+
+    private static void firstStage(SearchAlgorithms algorithms, String[] find, String[][] directory) {
+//            searching by linear search
+        System.out.println("Start searching...");
+
+        int count = 0;
+        long timeLinearSearching = System.currentTimeMillis();
+        for (String userName : find) {
+            if (algorithms.linearSearch(userName, directory) != -1) {
+                count++;
+            } else {
+                System.out.println(userName);
+            }
+        }
+        timeLinearSearching = System.currentTimeMillis() - timeLinearSearching;
+
+        System.out.printf("Found %d / 500 entries. Time taken: %d min. %d sec. %d ms.\n\n", count, Time.msToMin(timeLinearSearching), Time.msToSec(timeLinearSearching), Time.msToMs(timeLinearSearching));
+
+    }
+
+    private static void secondStage(SearchAlgorithms algorithms, String[] find, String[][] directory) {
+//            bubble sorting
+        System.out.println("Start searching (bubble sort + jump search)...");
+        long timeBubbleSort = System.currentTimeMillis();
+        final boolean isCompletedSorted = algorithms.bubbleSort(directory, timeBubbleSort/*, timeLinearSearching*/);
+        timeBubbleSort = System.currentTimeMillis() - timeBubbleSort;
+
+//            searching by jump search or linearSearch
+        long timeJumpSearching = System.currentTimeMillis();
+        int count = 0;
+        for (String userName : find) {
+            if (isCompletedSorted) { // jump search
+                if (algorithms.jumpSearch(userName, directory) != -1) {
+                    count++;
+                }
+            } else { // linear sorting
+                if (algorithms.linearSearch(userName, directory) != -1) {
+                    count++;
+                }
+            }
+        }
+        timeJumpSearching = System.currentTimeMillis() - timeJumpSearching;
+
+//            get total time of both operations (sorting and searching)
+        long totalTime = timeBubbleSort + timeJumpSearching;
+
+        System.out.printf("Found %d / 500 entries. Time taken: %d min. %d sec. %d ms.\n", count, Time.msToMin(totalTime), Time.msToSec(totalTime), Time.msToMs(totalTime));
+        System.out.printf("Sorting time: %d min. %d sec. %d ms.", Time.msToMin(timeBubbleSort), Time.msToSec(timeBubbleSort), Time.msToMs(timeBubbleSort));
+        if (!isCompletedSorted) System.out.print(" - STOPPED, moved to linear search");
+        System.out.printf("\nSearching time: %d min. %d sec. %d ms.\n\n", Time.msToMin(timeJumpSearching), Time.msToSec(timeJumpSearching), Time.msToMs(timeJumpSearching));
+    }
+
+    private static void thirdStage(SearchAlgorithms algorithms, String[] find, String[][] directory) {
+//            quick sort
+        System.out.println("Start searching (quick sort + binary search)...");
+        long timeQuickSort = System.currentTimeMillis();
+        algorithms.quickSort(directory);
+        timeQuickSort = System.currentTimeMillis() - timeQuickSort;
+
+//            searching by binary search
+        long timeBinarySearching = System.currentTimeMillis();
+        int count = 0;
+        for (String userName : find) {
+            if (algorithms.binarySearch(userName, directory) != -1) {
+                count++;
+            } else {
+//                    System.out.println(algorithms.binarySearch(userName, copiedDirectory2));
+            }
+
+        }
+        timeBinarySearching = System.currentTimeMillis() - timeBinarySearching;
+
+//            get total time of both operations (sorting and searching)
+        long totalTime2 = timeQuickSort + timeBinarySearching;
+
+        System.out.printf("Found %d / 500 entries. Time taken: %d min. %d sec. %d ms.\n", count, Time.msToMin(totalTime2), Time.msToSec(totalTime2), Time.msToMs(totalTime2));
+        System.out.printf("Sorting time: %d min. %d sec. %d ms.", Time.msToMin(timeQuickSort), Time.msToSec(timeQuickSort), Time.msToMs(timeQuickSort));
+//            if (!isCompletedSorted) System.out.print(" - STOPPED, moved to linear search");
+        System.out.printf("\nSearching time: %d min. %d sec. %d ms.\n\n", Time.msToMin(timeBinarySearching), Time.msToSec(timeBinarySearching), Time.msToMs(timeBinarySearching));
     }
 }
