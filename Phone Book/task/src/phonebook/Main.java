@@ -95,7 +95,7 @@ public class Main {
 
     private static void firstStage(SearchAlgorithms algorithms, String[] find, String[][] directory) {
 //            searching by linear search
-        System.out.println("Start searching...");
+        System.out.println("Start searching (linear search)...");
 
         int count = 0;
         long timeLinearSearching = System.currentTimeMillis();

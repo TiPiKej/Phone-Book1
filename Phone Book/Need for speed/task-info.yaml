@@ -354,28 +354,9 @@ files:
     \ }\n}\n"
   learner_created: false
 feedback_link: https://hyperskill.org/projects/63/stages/342/implement
-status: Failed
+status: Solved
 feedback:
-  message: |-
-    Wrong answer in test #1
-
-    Your output should contain 3 times the phrase `500 / 500`
-
-    Please find below the output of your program during this failed test.
-
-    ---
-
-    Start searching...
-    Found 500 / 500 entries. Time taken: 0 min. 11 sec. 49 ms.
-
-    Start searching (bubble sort + jump search)...
-    Found 500 / 500 entries. Time taken: 2 min. 2 sec. 824 ms.
-    Sorting time: 1 min. 50 sec. 508 ms. - STOPPED, moved to linear search
-    Searching time: 0 min. 12 sec. 316 ms.
-
-    Start searching (quick sort + binary search)...
-    Found 228 / 500 entries. Time taken: 0 min. 1 sec. 84 ms.
-    Sorting time: 0 min. 1 sec. 82 ms.
-    Searching time: 0 min. 0 sec. 2 ms.
-  time: Thu, 30 Jul 2020 11:15:10 UTC
+  message: Congratulations! Continue on <a href="https://hyperskill.org/projects/63/stages/342/implement">JetBrains
+    Academy</a>
+  time: Thu, 30 Jul 2020 14:06:36 UTC
 record: 3

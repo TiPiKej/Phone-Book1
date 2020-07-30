@@ -52,12 +52,8 @@ class SearchAlgorithms {
             i = Math.min(jump + i, findingArr.length - 1);
         }
 
-        for (int j = i; j > i - jump; j--) {
-            if (findingArr[i][1].equals(findingName)) return Integer.parseInt(findingArr[i][0]);
-
-            if (findingArr[i][1].compareTo(findingName) < 0) {
-                return -1;
-            }
+        for (int j = i; j >= Math.max(i - jump, 0); j--) {
+            if (findingArr[j][1].equals(findingName)) return Integer.parseInt(findingArr[i][0]);
         }
 
         return -1;
