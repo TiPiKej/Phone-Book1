@@ -17,8 +17,8 @@ class SearchAlgorithms {
             }
 
             if (name.equals(findingName)) {
-//                return number;
-                return i;
+                return number;
+//                return i;
             }
             i++;
         }

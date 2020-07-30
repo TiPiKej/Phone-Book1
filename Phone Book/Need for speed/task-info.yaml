@@ -354,5 +354,11 @@ files:
     \ }\n}\n"
   learner_created: false
 feedback_link: https://hyperskill.org/projects/63/stages/342/implement
-status: Unchecked
+status: Failed
+feedback:
+  message: |-
+    Error in test #1
+
+    In this test, the program is running for a long time, more than 1800 seconds. Most likely, the program has gone into an infinite loop.
+  time: Thu, 30 Jul 2020 10:07:44 UTC
 record: 3
