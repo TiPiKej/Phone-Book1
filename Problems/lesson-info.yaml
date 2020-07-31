@@ -14,3 +14,9 @@ content:
 - How many nuts each squirrel will get
 - Three numbers
 - Exponential expression
+- Return empty string when argument is null
+- Avoid NPE
+- Only true or false
+- Safe converting
+- Pastry packing optimization
+- Pastry packing optimization (1)
