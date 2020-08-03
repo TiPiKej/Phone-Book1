@@ -73,6 +73,12 @@ public class Main {
 
             thirdStage(algorithms, find, copiedDirectory2);
 
+            /* ******************************************************* */
+            /* **********************fourth stage********************* */
+            /* ******************************************************* */
+
+            fourthStage(find, directory);
+
         } catch (IOException e) {
             System.out.println("Cannot load files!");
         }
@@ -157,8 +163,6 @@ public class Main {
         for (String userName : find) {
             if (algorithms.binarySearch(userName, directory) != -1) {
                 count++;
-            } else {
-//                    System.out.println(algorithms.binarySearch(userName, copiedDirectory2));
             }
 
         }
@@ -169,7 +173,34 @@ public class Main {
 
         System.out.printf("Found %d / 500 entries. Time taken: %d min. %d sec. %d ms.\n", count, Time.msToMin(totalTime2), Time.msToSec(totalTime2), Time.msToMs(totalTime2));
         System.out.printf("Sorting time: %d min. %d sec. %d ms.", Time.msToMin(timeQuickSort), Time.msToSec(timeQuickSort), Time.msToMs(timeQuickSort));
-//            if (!isCompletedSorted) System.out.print(" - STOPPED, moved to linear search");
         System.out.printf("\nSearching time: %d min. %d sec. %d ms.\n\n", Time.msToMin(timeBinarySearching), Time.msToSec(timeBinarySearching), Time.msToMs(timeBinarySearching));
+    }
+
+    private static void fourthStage(String[] find, String[][] directory) {
+//            quick sort
+        System.out.println("Start searching (hash table)...");
+        long createTime = System.currentTimeMillis();
+        HashTable hashTable = new HashTable(5);
+        for (String[] user : directory) {
+            hashTable.put(user[1], Integer.parseInt(user[0]));
+        }
+        createTime = System.currentTimeMillis() - createTime;
+
+//            searching by binary search
+        long timeSearching = System.currentTimeMillis();
+        int count = 0;
+        for (String userName : find) {
+            if (hashTable.get(userName) != -1) {
+                count++;
+            }
+        }
+        timeSearching = System.currentTimeMillis() - timeSearching;
+
+//            get total time of both operations (sorting and searching)
+        long totalTime2 = createTime + timeSearching;
+
+        System.out.printf("Found %d / 500 entries. Time taken: %d min. %d sec. %d ms.\n", count, Time.msToMin(totalTime2), Time.msToSec(totalTime2), Time.msToMs(totalTime2));
+        System.out.printf("Creating time: %d min. %d sec. %d ms.", Time.msToMin(createTime), Time.msToSec(createTime), Time.msToMs(createTime));
+        System.out.printf("\nSearching time: %d min. %d sec. %d ms.\n\n", Time.msToMin(timeSearching), Time.msToSec(timeSearching), Time.msToMs(timeSearching));
     }
 }
